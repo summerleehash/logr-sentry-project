@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>LOGR Sentry Dashboard</title>
+</head>
+<body class="bg-black text-white"> <!-- Changed background color to black -->
+
+  <div class="container mx-auto p-4">
+    <div class="flex items-center mb-6">
+      <img src="https://develop.logr.com.au/template/logr/images/logo_horizontal_mixed.svg" alt="LOGR Sentry Logo" class="h-32 mr-4">
+      <h1 class="text-3xl font-bold">Sentry Dashboard</h1>
+    </div>
+
+    <div class="overflow-x-auto bg-gray-800 rounded-lg shadow"> <!-- Changed background color to dark gray -->
+      <table class="min-w-full divide-y divide-gray-700"> <!-- Changed divide color -->
+        <thead class="bg-gray-900"> <!-- Changed table header background color to a darker gray -->
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">ID</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Name</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Timestamp</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Addresses</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Assign Name</th>
+          </tr>
+        </thead>
+        <tbody class="bg-gray-800 divide-y divide-gray-700">
+          {{#clusters}}
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{id}}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{name}}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{time}}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300 truncate text-wrap">
+              {{mac_list.length}}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <form method="POST" action="/name" class="flex items-center">
+                <input type="hidden" name="id" value="{{id}}">
+                <input type="text" name="name" placeholder="Assign a name" value="{{name}}" class="border-gray-600 bg-gray-700 text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 mr-2 p-2">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Save</button>
+              </form>
+            </td>
+          </tr>
+          {{/clusters}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body> 
+</html>
