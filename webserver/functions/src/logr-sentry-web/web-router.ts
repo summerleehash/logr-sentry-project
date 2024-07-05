@@ -82,6 +82,17 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/name", async (req, res) => {
+  const { id, name } = req.body;
+  const cluster = await clusterService.getCluster(id);
+  if (cluster) {
+    cluster.name = name;
+    await clusterService.updateCluster(id, cluster);
+  }
+  const clusters = await clusterService.getClusters();
+  res.render("index", { clusters });
+});
+
 router.get("/api-keys", async (req, res) => {
   const userId = req.session.user?.uid;
 
