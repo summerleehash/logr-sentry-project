@@ -5,7 +5,9 @@ export const admin = firebaseAdmin.initializeApp();
 
 const getFirebaseConfig = async () => {
   const snap = await admin.firestore().collection("configuration").doc("firebase-config").get()
-  return snap.data() as {
+  const config = snap.data()
+
+  return config as {
     apiKey: string;
     authDomain: string;
     projectId: string;
