@@ -17,18 +17,20 @@
         <table class="min-w-full divide-y divide-gray-700">
           <thead class="bg-gray-900">
             <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Name</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Key</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Created At</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Action</th>
             </tr>
           </thead>
           <tbody class="bg-gray-800 divide-y divide-gray-700">
             {{#api_keys}}
             <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{key}}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{name}}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{hint}}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{created_at}}</td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <button class="bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Revoke</button>
+                <button disabled class="bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Revoke</button>
               </td>
             </tr>
             {{/api_keys}}

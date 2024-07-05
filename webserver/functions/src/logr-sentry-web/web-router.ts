@@ -15,6 +15,7 @@ declare module "express-session" {
 }
 
 const clusterService = new ClusterFirestoreService();
+const apiKeyService = new ApiKeyService();
 
 const sessionMiddleware = session({
   store: new FirestoreStore({
@@ -82,7 +83,15 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/api-keys", async (req, res) => {
-  res.render("api-keys");
+  const userId = req.session.user?.uid;
+
+  if (!userId) {
+    res.render("api-keys", { error: "User not found" });
+    return;
+  }
+
+  const apiKeys = await apiKeyService.getApiKeys(userId);
+  res.render("api-keys", { api_keys: apiKeys });
 });
 
 router.post("/api-keys", async (req, res) => {
@@ -98,9 +107,10 @@ router.post("/api-keys", async (req, res) => {
       throw new Error("API Key name is required");
     }
 
-    const service = new ApiKeyService();
-    const apiKey = await service.generateApiKey(userId, apiKeyName);
-    res.render("api-keys", { api_key: apiKey });
+    const apiKey = await apiKeyService.generateApiKey(userId, apiKeyName);
+    const apiKeys = await apiKeyService.getApiKeys(req.body.user.id);
+
+    res.render("api-keys", { api_key: apiKey, api_keys: apiKeys });
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error(`Error: ${error.message}`);

@@ -10,11 +10,21 @@ type ApiKeyRecord = {
   name: string;
   hint: string;
   created_at_ms: number;
+  created_at?: string;
 };
 
 const COLLECTION_REF = admin.firestore().collection(API_KEYS_COLLECTION);
 
 export class ApiKeyService {
+  async getApiKeys(userId: string) {
+    const snapshot = await COLLECTION_REF.where("owner_id", "==", userId).get();
+    return snapshot.docs.map((doc) => {
+      const toReturn = doc.data() as ApiKeyRecord;
+      toReturn.created_at = new Date(toReturn.created_at_ms).toLocaleString();
+      return toReturn;
+    });
+  }
+
   hashApiKey(apiKey: string): string {
     const salted = 'SUPER_SECURE_SALT' + apiKey;
     return crypto.createHash("sha1").update(salted).digest("hex");
