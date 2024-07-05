@@ -13,8 +13,6 @@ app.engine("mustache", mustacheExpress());
 app.set("view engine", "mustache");
 app.set("views", __dirname + "/views");
 
-// const BASE_URL = "http://127.0.0.1:5001/logr-sentry-312c5/us-central1/web";
-
 // Router for the website
 app.use('/', websiteRouter);
 

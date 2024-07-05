@@ -15,8 +15,10 @@ export const middlewareApiKey = async (
   }
 
   const apiKeyService = new ApiKeyService();
-
-  if (await apiKeyService.isValidApiKey(apiKey)) {
+  const userId = await apiKeyService.getUserIdWithApiKey(apiKey);
+  if (userId) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (req as any).userId = userId;
     next();
     return;
   }

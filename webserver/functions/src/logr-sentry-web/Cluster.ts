@@ -1,6 +1,12 @@
-import {admin} from "../config";
+import { admin } from "../config";
 
-export type Cluster = { id: string; name: string; time: string; mac_list: string[] };
+export type Cluster = {
+  id: string;
+  name: string;
+  time: string;
+  mac_list: string[];
+  owner_id: string
+};
 
 const COLLECTION_NAME = "clusters";
 
@@ -25,22 +31,23 @@ export class ClusterFirestoreService {
     return snapshot.docs.map((it) => it.data() as Cluster);
   }
 
-  async addCluster(cluster: Partial<Cluster>): Promise<Cluster> {
+  async addCluster(cluster: Partial<Cluster>, ownerId: string): Promise<Cluster> {
     const ref = admin.firestore().collection(COLLECTION_NAME).doc();
     const payload: Cluster = {
       ...cluster,
       name: "",
       id: ref.id,
+      owner_id: ownerId,
     } as Cluster;
 
-    await ref.set(payload, {merge: true});
+    await ref.set(payload, { merge: true });
 
     return payload;
   }
 
   async updateCluster(id: string, payload: Partial<Cluster>) {
     const ref = admin.firestore().collection(COLLECTION_NAME).doc(id);
-    await ref.set(payload, {merge: true});
+    await ref.set(payload, { merge: true });
   }
 
   async deleteCluster(id: string) {

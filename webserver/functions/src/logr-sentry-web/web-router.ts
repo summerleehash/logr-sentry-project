@@ -14,7 +14,6 @@ declare module "express-session" {
   }
 }
 
-
 const clusterService = new ClusterFirestoreService();
 
 const sessionMiddleware = session({
@@ -87,10 +86,27 @@ router.get("/api-keys", async (req, res) => {
 });
 
 router.post("/api-keys", async (req, res) => {
-  const userId = ''; // TODO: Get this from the user's session.
-  const service = new ApiKeyService();
-  const apiKey = service.generateApiKey(userId);
-  res.render("api-keys", { api_key: apiKey });
+  try {
+    const userId = req.session.user?.uid;
+    const apiKeyName = req.body.key_name;
+
+    if (!userId) {
+      throw new Error("User not found");
+    }
+
+    if (!apiKeyName) {
+      throw new Error("API Key name is required");
+    }
+
+    const service = new ApiKeyService();
+    const apiKey = await service.generateApiKey(userId, apiKeyName);
+    res.render("api-keys", { api_key: apiKey });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Error: ${error.message}`);
+      res.render("api-keys", { error: error.message });
+    }
+  }
 });
 
 export default router;

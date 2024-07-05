@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>LOGR Sentry Dashboard</title>
+</head>
+<body class="bg-black text-white">
+
+  <div class="container mx-auto p-4">
+    {{> partial-menu }}
+
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold mb-4">API Keys</h2>
+      <div class="overflow-x-auto bg-gray-800 rounded-lg shadow">
+        <table class="min-w-full divide-y divide-gray-700">
+          <thead class="bg-gray-900">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Key</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Created At</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-gray-800 divide-y divide-gray-700">
+            {{#api_keys}}
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{key}}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{created_at}}</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <button class="bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Revoke</button>
+              </td>
+            </tr>
+            {{/api_keys}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold mb-4">Create New API Key</h2>
+      <form method="POST" action="" class="bg-gray-800 p-4 rounded-lg shadow">
+        <div class="mb-4">
+          <label for="keyName" class="block text-sm font-medium text-gray-300">Key Name</label>
+          <input type="text" id="keyName" name="key_name" placeholder="Enter key name" class="mt-1 p-2 bg-gray-700 border-gray-600 text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 w-full">
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Create API Key</button>
+      </form>
+
+      {{#api_key}}
+      <div class="mt-6 p-4 bg-gray-900 rounded-lg shadow">
+        <h4 class="text-3xl font-bold text-green-500 break-words">Your API Key:</h4>
+        <p class="text-4xl font-mono text-yellow-300 mt-4">{{api_key}}</p>
+      </div>
+      {{/api_key}}
+    </div>
+  </div>
+
+</body> 
+</html>

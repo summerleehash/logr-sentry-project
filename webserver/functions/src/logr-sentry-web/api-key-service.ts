@@ -8,6 +8,7 @@ type ApiKeyRecord = {
   uid: string; // Hash of the API key
   owner_id: string;
   name: string;
+  hint: string;
   created_at_ms: number;
 };
 
@@ -20,7 +21,7 @@ export class ApiKeyService {
   }
 
   // Generate a new API key
-  async generateApiKey(ownerId: string): Promise<string> {
+  async generateApiKey(ownerId: string, keyName: string): Promise<string> {
     const apiKey = shortUUID.generate();
     const subset = apiKey.slice(0, 5);
     const hash = this.hashApiKey(apiKey);
@@ -28,7 +29,8 @@ export class ApiKeyService {
     const payload: ApiKeyRecord = {
       uid: hash,
       owner_id: ownerId,
-      name: `${subset}********************************`,
+      name: keyName,
+      hint: `${subset}********************************`,
       created_at_ms: Date.now(),
     };
 
@@ -42,5 +44,17 @@ export class ApiKeyService {
     const hash = this.hashApiKey(apiKey);
     const doc = await COLLECTION_REF.doc(hash).get();
     return doc.exists;
+  }
+
+  async getUserIdWithApiKey(apiKey: string): Promise<string | null> {
+    const hash = this.hashApiKey(apiKey);
+    const doc = await COLLECTION_REF.doc(hash).get();
+
+    if (!doc.exists) {
+      return null;
+    }
+
+    const record = doc.data() as ApiKeyRecord;
+    return record.owner_id;
   }
 }
