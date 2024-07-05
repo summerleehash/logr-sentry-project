@@ -1,12 +1,12 @@
 #include "ServerPost.h"
-#include "Secrets.h"
 
-String postRequest(String url, String jsonPayLoad)
+HTTPClient http;
+
+String postRequest(String url, String jsonPayLoad, String apiKey)
 {
-    HTTPClient http;
     http.begin(url);
     http.addHeader("Content-Type", "application/json");
-    http.addHeader("Authorization", "Bearer " + apiKey);  // Add API key to the header
+    http.addHeader("Authorization", apiKey);
 
     // Send HTTP POST request
     int httpResponseCode = http.POST(jsonPayLoad);

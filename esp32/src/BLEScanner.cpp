@@ -33,4 +33,7 @@ void startBLEScan(uint32_t duration)
     {
         Serial.printf("Scan complete. Found %d devices.\n", deviceCount);
     }
+
+    pBLEScan->stop();
+    pBLEScan->clearResults();
 }

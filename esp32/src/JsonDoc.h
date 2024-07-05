@@ -1,5 +1,5 @@
-#ifndef JSONREQUEST_H
-#define JSONREQUEST_H
+#ifndef JSONDOC_H
+#define JSONDOC_H
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
