@@ -32,5 +32,6 @@ module.exports = {
     "indent": ["error", 2],
     "max-len": 0,
     "object-curly-spacing": 0,
+    "new-cap": 0,
   },
 };
