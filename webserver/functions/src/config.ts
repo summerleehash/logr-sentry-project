@@ -1,6 +1,5 @@
 import firebaseAdmin from "firebase-admin";
 import { FirebaseApp, initializeApp } from "firebase/app";
-import { Auth, getAuth } from "firebase/auth";
 
 export const admin = firebaseAdmin.initializeApp();
 
